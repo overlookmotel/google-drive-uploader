@@ -1,0 +1,54 @@
+{
+  "name": "google-drive-uploader",
+  "version": "0.0.0",
+  "description": "Upload large files to Google Drive",
+  "main": "index.js",
+  "author": {
+    "name": "Overlook Motel"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/overlookmotel/google-drive-uploader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/overlookmotel/google-drive-uploader/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@overlookmotel/eslint-config": "^4.3.2",
+    "@overlookmotel/eslint-config-jest": "^2.1.0",
+    "coveralls": "^3.0.6",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-node": "^10.0.0",
+    "jest": "^24.9.0"
+  },
+  "keywords": [
+	"google",
+	"drive",
+	"upload",
+	"transfer",
+	"chunk",
+	"resumable",
+	"resumeable"
+  ],
+  "scripts": {
+    "test": "npm run lint && npm run test-main",
+    "lint": "eslint '*.js' '.*.js' '**/*.js' '**/.*.js'",
+    "lint-fix": "eslint '*.js' '.*.js' '**/*.js' '**/.*.js' --fix",
+    "test-main": "cross-env NODE_ENV=production jest",
+    "cover": "npm run cover-main && rm -rf coverage",
+    "coveralls": "npm run cover-main && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "cover-main": "cross-env COVERAGE=true NODE_ENV=production jest --coverage",
+    "ci": "if [ $COVERAGE ]; then npm run coveralls; else npm test; fi"
+  },
+  "engines": {
+    "node": ">=8.3.0"
+  },
+  "readmeFilename": "README.md",
+  "license": "MIT"
+}
