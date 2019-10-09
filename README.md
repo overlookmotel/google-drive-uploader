@@ -27,7 +27,7 @@ npm install google-drive-upload
 const upload = require('google-drive-upload');
 
 const {id, size, md5, mimeType} = await upload({
-  path: '/path/to/file',
+  path: '/path/to/file.mov',
   folderId: '...Google Drive folder ID...',
   auth: /* Google Drive auth object */
 });
@@ -54,7 +54,7 @@ const fs = require('fs');
 const {id, size, md5, mimeType} = await upload({
   streamFactory(start, len) {
     return fs.createReadStream(
-	  '/path/to/file',
+	  '/path/to/file.mov',
 	  {start, end: start + len - 1}
     );
   },
@@ -127,7 +127,7 @@ Default is 256 KiB (Google Drive's minimum). Usually a larger chunk size will re
 
 Optional.
 
-Google Drive calculates the MD5 hash of the data uploaded. This package calculates the MD5 as its uploading, and verifies the hashes calculated locally and by Google Drive match, to ensure upload has completed successfully.
+Google Drive calculates the MD5 hash of the data uploaded. This package calculates the MD5 as it's uploading, and verifies the hashes calculated locally and by Google Drive match, to ensure upload has completed successfully.
 
 If you already know the MD5 of the file, you can provide it with the `md5` option to avoid the computational overhead of recalculating it.
 
