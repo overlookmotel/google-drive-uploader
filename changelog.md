@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+Bug fixes:
+
+* Accept auth objects created by older Google API library
+
 ## 0.1.1
 
 Features:
