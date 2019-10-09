@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+Bug fixes:
+
+* Call `onData` even if `md5` option provided [fix]
+
 ## 0.1.2
 
 Bug fixes:
