@@ -7,9 +7,204 @@
 
 # Upload large files to Google Drive
 
+## What's it for
+
+When uploading large files (GB+) to Google Drive, it's best to use their chunked upload method (aka "[resumable](https://developers.google.com/drive/api/v3/manage-uploads#resumable)").
+
+This package handles uploading a file to Google Drive in chunks, and automatically resumes upload if the connection is interrupted.
+
+## Installation
+
+```
+npm install google-drive-upload
+```
+
 ## Usage
 
-This module is under development and not ready for use yet.
+### Uploading a file from disc
+
+```js
+const upload = require('google-drive-upload');
+
+const {id, size, md5, mimeType} = await upload({
+  path: '/path/to/file',
+  folderId: '...Google Drive folder ID...',
+  auth: /* Google Drive auth object */
+});
+```
+
+`folderId` option is optional.
+
+`upload()` returns a promise which resolves to an object of form `{id, size, md5, mimeType}`.
+
+* `id` is Google Drive's ID for the file
+* `size` is size of the file uploaded in bytes
+* `md5` is MD5 hash of the uploaded file, as reported by Google Drive
+* `mimeType` is MIME Type file is stored with on Google Drive
+
+### Uploading from another data source
+
+Files are uploaded in chunks. If a chunk fails to transfer, it will be sent again.
+
+For this reason, it's not possible to stream into the uploader, as the stream may need to be "rewound" if sending of a chunk fails and it needs to be sent again. Instead you need to provide a stream factory function which provides a stream of a certain section of the file.
+
+```js
+const fs = require('fs');
+
+const {id, size, md5, mimeType} = await upload({
+  streamFactory(start, len) {
+    return fs.createReadStream(
+	  '/path/to/file',
+	  {start, end: start + len - 1}
+    );
+  },
+  filename: 'file.mov',
+  size: 2000000000,
+  folderId: '...Google Drive folder ID...',
+  auth: /* Google Drive auth object */
+});
+```
+
+`filename` and `size` options are required.
+
+If a stream is no longer required, its `.destroy()` method will be called.
+
+### Authentication
+
+Before you can upload, you must authenticate with Google APIs.
+
+For convenience, this package provides a simple authentication method:
+
+```js
+const auth = await upload.authenticate({
+  email: 'me@gmail.com',
+  privateKey: '...private key...'
+});
+
+// Now use `auth` in calls to `upload()`
+```
+
+You can also use Google's own libraries. e.g.:
+
+```js
+const {JWT} = require('google-auth-library');
+
+const auth = new JWT(
+  'me@gmail.com',
+  null,
+  '...private key...',
+  ['https://www.googleapis.com/auth/drive']
+);
+
+await auth.authorize();
+```
+
+### Options
+
+#### `path`
+
+Path of file to upload (see example above).
+
+#### `streamFactory`
+
+Function to produce streams of content to be uploaded (see example above).
+
+Either `path` or `streamFactory` must be provided.
+
+#### `auth`
+
+Authorization object (see example above). Required.
+
+#### `chunkSize`
+
+Set size of chunks data should be uploaded in, in bytes. Optional.
+
+Must be a multiple of 256 KiB.
+
+Default is 256 KiB (Google Drive's minimum). Usually a larger chunk size will result in a faster upload.
+
+#### `md5`
+
+Optional.
+
+Google Drive calculates the MD5 hash of the data uploaded. This package calculates the MD5 as its uploading, and verifies the hashes calculated locally and by Google Drive match, to ensure upload has completed successfully.
+
+If you already know the MD5 of the file, you can provide it with the `md5` option to avoid the computational overhead of recalculating it.
+
+`md5` should be provided as a hex-encoded string.
+
+#### `noMd5`
+
+Optional. Set to `true` to skip computation and checking of the MD5 hash of uploaded file.
+
+#### `filename`
+
+When calling `upload()` with `path` option, filename of the file in Google Drive defaults to the local filename. `filename` option can be used to override this.
+
+`filename` must be provided when using `streamFactory` as there is no `path` to deduce the filename from.
+
+#### `size`
+
+Required when calling `upload()` with `streamFactory` option. The size of the data to be uploaded in bytes.
+
+When calling `upload()` with `path` option, by default `size` is deterined by stat-ing the file. If the file size is already known, you can provide it with `size` option to skip the stat call.
+
+#### `folderId`
+
+Google Drive ID for folder to put file in. Optional.
+
+#### `mimeType`
+
+MIME Type of file. Optional. If not provided, Google Drive will choose based on file content/file name.
+
+#### `progress`
+
+Callback for progress reporting. Optional.
+
+Will be called with `(done, total)`. `done` is number of bytes transferred, `total` is length of file in bytes.
+
+#### `log`
+
+Logging function. Optional. Will be called with args `(message, properties)`.
+
+#### `onData`
+
+Callback function which will be called every time data is pushed to the Google Drive API. Optional.
+
+Called with arguments `(data, encoding)`.
+
+This can be used, for example, to hash the data as it's uploaded, to ensure it matches known hash value.
+
+If a chunk fails to transfer and has to be sent again, `onData` will not be called again with this data.
+
+### Getting an upload URL
+
+Uploading happens in 3 stages:
+
+1. Get an upload URL from Google Drive API
+2. Upload file to the upload URL
+3. Check file is transferred correctly
+
+`upload()` by default performs all 3 steps together.
+
+If you prefer, you can do step 1 separately.
+
+```js
+// Get upload URL
+const uploadUrl = await upload.getUploadUrl({
+  filename: 'file.mov',
+  size: 2048,
+  folderId: '...Google Drive folder ID...',
+  auth: /* Google Drive auth object */
+});
+
+// Upload file
+const {id} = await upload({
+  uploadUrl,
+  path: '/path/to/file',
+  auth: /* Google Drive auth object */
+});
+```
 
 ## Tests
 

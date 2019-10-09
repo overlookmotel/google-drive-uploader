@@ -13,7 +13,11 @@
   "bugs": {
     "url": "https://github.com/overlookmotel/google-drive-uploader/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "googleapis": "^43.0.0",
+    "readable-stream": "^3.4.0",
+    "request": "^2.88.0"
+  },
   "devDependencies": {
     "@overlookmotel/eslint-config": "^4.3.2",
     "@overlookmotel/eslint-config-jest": "^2.1.0",
@@ -28,13 +32,13 @@
     "jest": "^24.9.0"
   },
   "keywords": [
-	"google",
-	"drive",
-	"upload",
-	"transfer",
-	"chunk",
-	"resumable",
-	"resumeable"
+    "google",
+    "drive",
+    "upload",
+    "transfer",
+    "chunk",
+    "resumable",
+    "resumeable"
   ],
   "scripts": {
     "test": "npm run lint && npm run test-main",
