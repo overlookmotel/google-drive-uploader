@@ -14,7 +14,7 @@
     "url": "https://github.com/overlookmotel/google-drive-uploader/issues"
   },
   "dependencies": {
-    "googleapis": "^43.0.0",
+    "googleapis": "^44.0.0",
     "readable-stream": "^3.4.0",
     "request": "^2.88.0"
   },
