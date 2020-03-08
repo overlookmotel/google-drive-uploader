@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.4
+
+Tests:
+
+* Simplify unhandled rejection handling
+
+Dev:
+
+* Update dev dependencies
+* Remove `sudo` from Travis CI config
+* ESLint ignore coverage dir
+* Run tests on CI on Node v13
+
+Docs:
+
+* Update license year
+
 ## 0.1.3
 
 Bug fixes:
