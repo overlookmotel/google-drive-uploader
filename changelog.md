@@ -21,7 +21,7 @@ Docs:
 
 Bug fixes:
 
-* Call `onData` even if `md5` option provided [fix]
+* Call `onData` even if `md5` option provided
 
 ## 0.1.2
 
