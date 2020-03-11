@@ -16,7 +16,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "googleapis": "^47.0.0",
-    "readable-stream": "^3.6.0"
+    "readable-stream": "^3.6.0",
+    "tiny-invariant": "^1.1.0"
   },
   "devDependencies": {
     "@overlookmotel/eslint-config": "^6.0.1",
