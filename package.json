@@ -14,9 +14,9 @@
     "url": "https://github.com/overlookmotel/google-drive-uploader/issues"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "googleapis": "^47.0.0",
-    "readable-stream": "^3.6.0",
-    "request": "^2.88.2"
+    "readable-stream": "^3.6.0"
   },
   "devDependencies": {
     "@overlookmotel/eslint-config": "^6.0.1",
