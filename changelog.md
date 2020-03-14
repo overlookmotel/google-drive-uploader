@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.1
+
+Bug fixes:
+
+* Error if `uploadUrl` and `auth` options both not provided
+
+Docs:
+
+* Document `uploadUrl` option
+
 ## 0.2.0
 
 Breaking changes:
