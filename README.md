@@ -113,7 +113,7 @@ Either `path` or `streamFactory` must be provided.
 
 #### `auth`
 
-Authorization object (see example above). Required.
+Authorization object (see example above). Required unless `getFinal` option is used.
 
 #### `chunkSize`
 
@@ -157,6 +157,14 @@ Google Drive ID for folder to put file in. Optional.
 
 MIME Type of file. Optional. If not provided, Google Drive will choose based on file content/file name.
 
+#### `getFinal`
+
+By default, `upload()` will check the size and MD5 hash of final file against Google Drive's API after transfer, to ensure no corruption in transfer.
+
+You can disable this check with `getFinal: false`.
+
+You can alternatively provide your own function to get the final file details. The function will be called with arguments `(id, auth, log)` and must return an object of form `{size, md5, mimeType}` (`mimeType` is optional).
+
 #### `progress`
 
 Callback for progress reporting. Optional.
@@ -177,7 +185,7 @@ This can be used, for example, to hash the data as it's uploaded, to ensure it m
 
 If a chunk fails to transfer and has to be sent again, `onData` will not be called again with this data.
 
-### Getting an upload URL
+### Individual stages
 
 Uploading happens in 3 stages:
 
@@ -187,24 +195,40 @@ Uploading happens in 3 stages:
 
 `upload()` by default performs all 3 steps together.
 
-If you prefer, you can do step 1 separately.
+If you prefer, you can do the 3 steps separately.
 
 ```js
 // Get upload URL
+const size = 2048;
 const uploadUrl = await upload.getUploadUrl({
   filename: 'file.mov',
-  size: 2048,
+  size,
   folderId: '...Google Drive folder ID...',
   auth: /* Google Drive auth object */
 });
 
 // Upload file
-const {id} = await upload({
+const {id, md5} = await upload({
   uploadUrl,
-  path: '/path/to/file',
-  auth: /* Google Drive auth object */
+  path: '/path/to/file.mov',
+  getFinal: false
+  // `auth` prop not required when `getFinal` is false
 });
+
+// Check hash
+const {size: gDriveSize, md5: gDriveMd5} = await upload.getFinal({
+ id,
+ auth: /* Google Drive auth object */
+});
+
+if (gDriveSize === size && gDriveMd5 === md5) {
+  console.log('Success!');
+} else {
+  throw new Error('Transfer failed');
+}
 ```
+
+The main purpose is to allow the 3 steps to be done on different servers. In particular, only stages 1 + 3 require authorization, so it's possible to do these steps on a secure server, and the upload itself on a client, without giving the client access to API keys.
 
 ## Versioning
 
