@@ -111,6 +111,12 @@ Function to produce streams of content to be uploaded (see example above).
 
 Either `path` or `streamFactory` must be provided.
 
+#### `uploadUrl`
+
+If you've already created a Google Drive upload URL, you can provide it with this option.
+
+Optional. If no upload URL provided, `upload()` will create one automatically.
+
 #### `auth`
 
 Authorization object (see example above). Required unless `getFinal` option is used.
