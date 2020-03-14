@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+Docs:
+
+* Correct requirements for `auth` option [fix]
+
 ## 0.2.1
 
 Bug fixes:
