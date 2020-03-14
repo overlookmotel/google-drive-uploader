@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.2.0
+
+Breaking changes:
+
+* Drop support for Node v8
+
+Features:
+
+* `getUploadUrl` method `origin` option
+* `getFinal` function and option
+
+Refactor:
+
+* Replace `request` with `axios`
+* Replace `throw` statements with `invariant`
+* Function validation method
+
+Dependencies:
+
+* Update dependencies
+
+Dev:
+
+* Update dev dependencies
+
+No code:
+
+* Add missing param to JSDoc comment
+
+Docs:
+
+* Versioning policy
+* Fix typo in Changelog
+
 ## 0.1.4
 
 Tests:
