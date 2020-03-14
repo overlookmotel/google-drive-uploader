@@ -119,7 +119,7 @@ Optional. If no upload URL provided, `upload()` will create one automatically.
 
 #### `auth`
 
-Authorization object (see example above). Required unless `getFinal` option is used.
+Authorization object (see example above). Required unless `uploadUrl` provided and `getFinal` option is used.
 
 #### `chunkSize`
 
