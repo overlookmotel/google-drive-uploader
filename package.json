@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "googleapis": "^48.0.0",
+    "googleapis": "^49.0.0",
     "readable-stream": "^3.6.0",
     "tiny-invariant": "^1.1.0"
   },
