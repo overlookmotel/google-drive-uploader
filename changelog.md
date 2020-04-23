@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+Docs:
+
+* Fix wrong package name
+
 ## 0.2.2
 
 Docs:
