@@ -16,7 +16,7 @@ This package handles uploading a file to Google Drive in chunks, and automatical
 ## Installation
 
 ```
-npm install google-drive-upload
+npm install google-drive-uploader
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install google-drive-upload
 ### Uploading a file from disc
 
 ```js
-const upload = require('google-drive-upload');
+const upload = require('google-drive-uploader');
 
 const {id, size, md5, mimeType} = await upload({
   path: '/path/to/file.mov',
