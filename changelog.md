@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5
+
+* Ensure streams always destroyed on error [fix]
+* Log stream events [improve]
+
 ## 0.1.4
 
 Tests:
