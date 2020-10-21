@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6
+
+* Do not stall on put error [fix]
+* Do not crash on multiple stream errors [fix]
+
 ## 0.1.5
 
 * Ensure streams always destroyed on error [fix]
